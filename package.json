@@ -1,11 +1,10 @@
 {
-  "name": "mem-mon",
-  "version": "0.2.16",
+  "name": "@thewhistledev/mem-mon",
+  "version": "0.2.21",
   "description": "A npm module memory monitoring script that tells you how much megabytes (MB) a module is using in memory.",
   "main": "mem.js",
   "scripts": {
-    "test": "node mem.js",
-    "publish": "npm publish && npm publish --registry https://npm.pkg.github.com"
+    "test": "node mem.js"
   },
   "keywords": [
     "mem",
@@ -15,8 +14,5 @@
   ],
   "author": "thewhistledev",
   "license": "GPL-3.0",
-  "repository": "https://github.com/thewhistledev/mem-mon.git",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  }
+  "repository": "https://github.com/thewhistledev/mem-mon.git"
 }
