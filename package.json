@@ -16,6 +16,6 @@
   "license": "GPL-3.0",
   "repository": "https://github.com/thewhistledev/mem-mon.git",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org/"
   }
 }
