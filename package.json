@@ -1,6 +1,6 @@
 {
   "name": "mem-mon",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "description": "A npm module memory monitoring script that tells you how much megabytes (MB) a module is using in memory.",
   "main": "mem.js",
   "scripts": {
