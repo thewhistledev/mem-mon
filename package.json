@@ -1,10 +1,11 @@
 {
   "name": "mem-mon",
-  "version": "0.2.11",
+  "version": "0.2.15",
   "description": "A npm module memory monitoring script that tells you how much megabytes (MB) a module is using in memory.",
   "main": "mem.js",
   "scripts": {
-    "test": "node mem.js"
+    "test": "node mem.js",
+    "publish": "npm publish && npm publish --registry https://npm.pkg.github.com"
   },
   "keywords": [
     "mem",
