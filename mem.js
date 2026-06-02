@@ -3,6 +3,7 @@
  * 
  * @param {string} packageName - The name of the package to monitor
  * @throws {Error} If packageName is not provided or is not a string
+ * @throws {Error} If the package cannot be loaded
  * 
  * @example
  * const monitorPackageMemoryUsage = require('./mem.js');
@@ -29,6 +30,9 @@ function monitorPackageMemoryUsage(packageName) {
         let result;
         
         try {
+            // Track heap BEFORE require
+            const heapBefore = process.memoryUsage().heapUsed;
+            
             // Call the original require
             result = originalRequire.apply(this, arguments);
             
@@ -37,11 +41,12 @@ function monitorPackageMemoryUsage(packageName) {
                 targetPackageLoaded = true;
             }
             
-            // Track memory usage for the target package and its dependencies
+            // Track memory delta for the target package and its dependencies
             if (targetPackageLoaded && !moduleMemoryUsage[moduleName]) {
-                // Capture memory state after require completes
-                const currentMemoryUsage = process.memoryUsage().heapUsed;
-                moduleMemoryUsage[moduleName] = currentMemoryUsage;
+                // Capture heap AFTER require completes
+                const heapAfter = process.memoryUsage().heapUsed;
+                // Store the delta, not the absolute value
+                moduleMemoryUsage[moduleName] = heapAfter - heapBefore;
             }
             
             return result;
@@ -70,7 +75,7 @@ function monitorPackageMemoryUsage(packageName) {
                     memoryUsageInMB[moduleName] = memoryInMB + ' MB';
                 }
                 
-                console.log('\nModule Memory Usage:');
+                console.log('\nModule Memory Usage (Delta):');
                 console.log(memoryUsageInMB);
                 console.log(`\nTotal Heap Delta: ${(totalMemoryDelta / (1024 * 1024)).toFixed(2)} MB`);
             }
@@ -86,7 +91,8 @@ function monitorPackageMemoryUsage(packageName) {
         originalRequire.apply(this, [packageName]);
     } catch (error) {
         console.error(`Failed to load package '${packageName}':`, error.message);
-        process.exit(1);
+        // Rethrow instead of calling process.exit() to allow callers to handle the error
+        throw error;
     }
 }
 
